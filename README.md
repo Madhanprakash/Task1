@@ -30,17 +30,25 @@ The app also reads credentials from `.streamlit/secrets.toml` when the correspon
 
 ## Run with Docker
 
-1. Create a `.env` file with `OPENAI_API_KEY`, `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD`. `NEO4J_DATABASE` and `OPENAI_CHAT_MODEL` are optional.
-2. Build and run the container:
+1. Create a `.env` file in the project directory:
 
-   ```powershell
-   docker build -t document-knowledge-base .
-   docker run --rm -p 8501:8501 --env-file .env document-knowledge-base
+   ```dotenv
+   OPENAI_API_KEY=your-openai-api-key
+   NEO4J_PASSWORD=choose-a-password-at-least-8-characters-long
    ```
 
-3. Open <http://localhost:8501>.
+   `NEO4J_DATABASE` and `OPENAI_CHAT_MODEL` are optional; they default to `neo4j` and `gpt-4o-mini`.
+2. Start the app and Neo4j database:
 
-The `.dockerignore` file excludes local credentials and development files from the image. The Neo4j database must be reachable from the container at the configured `NEO4J_URI`.
+   ```powershell
+   docker compose up --build
+   ```
+
+3. Open <http://localhost:8501>. Neo4j Browser is available at <http://localhost:7474>.
+
+Use `docker compose down` to stop the services. Neo4j data is retained in the `neo4j_data` volume; use `docker compose down -v` only when you want to delete that stored data.
+
+The `.dockerignore` file excludes local credentials and development files from the image.
 
 ## Neo4j data model
 
